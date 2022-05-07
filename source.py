@@ -1,0 +1,1 @@
+chapas = [PUMA - Para Um Melhor Aprendizado, FD - Força Democrática]

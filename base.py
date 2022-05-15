@@ -1,5 +1,3 @@
-
-
 class arq:
     def __init__(self, path):
         self.path = path
@@ -25,11 +23,9 @@ class arq:
             if mode == "e":
                 arq.write(text)
             elif mode == "a":
-                with open(self.path, "r") as arq:
-                    r = "".join(arq.readlines())
-                arq.write(r + text)
+                arq.write(self.content + text)
             else:
-                print("The mode can be:\na:add text, without rewriting\ne:rewrite everything")
+                print("The mode can be:\na:add text, without rewriting\ne: erase the current text, rewriting everything")
         with open(self.path, "r") as arq:
             read = arq.readlines()
         self.content = "".join(read)
@@ -46,13 +42,14 @@ class party:
 
 class election:
     def __init__(self):
-        ps = arq("chapas.txt")
+        self.ps = arq("chapas.txt")
+        self.pr = arq("progress.txt")
         self.partys = []
-        if ps.content == "":
+        if self.ps.content == "":
             print("Sem chapas")
             return None
         else:
-            for i in ps.read(0):
+            for i in self.ps.read(0):
                 p = party(i.replace("\n", ""))
                 self.partys.append(p)
 
@@ -73,19 +70,12 @@ class election:
                     p.one()
                     break
                 n += 1
-            r = arq("progress.txt")
-            print(self.progress())
-            r.write(self.progress())
+            self.progress()
                     
 
     def progress(self):
         output = ""
         for p in self.partys:
             output += p.name + ": " + str(p.points) + (" votos" if p.points != 1 else "  voto") + "\n"
+        self.pr.write(output)
         return output
-
-
-e = election()
-for i in range(1, 10):
-    e.vote(2)
-print(e.progress())

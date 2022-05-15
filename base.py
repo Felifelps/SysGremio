@@ -71,9 +71,10 @@ class election:
             for p in self.partys:
                 if pid == n:
                     p.one()
-                    return 0
+                    break
                 n += 1
             r = arq("progress.txt")
+            print(self.progress())
             r.write(self.progress())
                     
 

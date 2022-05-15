@@ -60,7 +60,7 @@ while run:
 
     elif ans == "2":
         partys = 1
-        ps = arq("chapas.txt")
+        ps = arq("chapas")
         while partys:
             ans = menu("Chapas", ["Adicionar", "Excluir", "Voltar"], ps.content)
             if ans in "12":

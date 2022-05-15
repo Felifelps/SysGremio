@@ -42,8 +42,8 @@ class party:
 
 class election:
     def __init__(self):
-        self.ps = arq("chapas.txt")
-        self.pr = arq("progress.txt")
+        self.ps = arq("chapas")
+        self.pr = arq("progress")
         self.partys = []
         if self.ps.content == "":
             print("Sem chapas")
@@ -78,4 +78,6 @@ class election:
         for p in self.partys:
             output += p.name + ": " + str(p.points) + (" votos" if p.points != 1 else "  voto") + "\n"
         self.pr.write(output)
+        c = arq("progress.txt")
+        c.write(output)
         return output

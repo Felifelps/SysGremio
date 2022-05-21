@@ -22,14 +22,14 @@ class arq:
         with open(self.path, "w") as arq:
             if mode == "e":
                 arq.write(text)
-            elif mode == "a":
-                arq.write(self.content + text)
+            elif "a" in mode:
+                arq.write(self.content + ('\n' if mode == 'al' else '') + text)
             else:
-                print("The mode can be:\na:add text, without rewriting\ne: erase the current text, rewriting everything")
+                print("The mode can be:\na:add text, without rewriting\nal: add the text in a new line\ne: erase the current text, rewriting everything")
         with open(self.path, "r") as arq:
             read = arq.readlines()
         self.content = "".join(read)
-
+        
 
 class party:
     def __init__(self, name):

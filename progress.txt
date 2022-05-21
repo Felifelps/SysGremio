@@ -1,4 +1,11 @@
-FD: 0 votos
+FD: 1  voto
 ADIDAS: 0 votos
 PUMA: 0 votos
-NIKE: 10 votos
+NIKE: 0 votos
+a: 0 votos
+b: 0 votos
+c: 0 votos
+f: 0 votos
+e: 0 votos
+d: 0 votos
+g: 0 votos

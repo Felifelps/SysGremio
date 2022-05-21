@@ -29,7 +29,7 @@ class arq:
         with open(self.path, "r") as arq:
             read = arq.readlines()
         self.content = "".join(read)
-        
+
 
 class party:
     def __init__(self, name):

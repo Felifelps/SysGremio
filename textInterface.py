@@ -88,7 +88,7 @@ while 1:
                             break
                         n = menu("Excluindo chapa", ps.read(0))
                         if check_is_digit(ans) and int(n) - 1 <= len(ps.read(0)):
-                            yn = input("Excluir {}? s/n".format(ps.read(0)[int(n) - 1]))
+                            yn = input("Excluir {}? s/n ".format(ps.read(0)[int(n) - 1]))
                             if yn in "sS":
                                 rew = []
                                 for p in ps.read(0):

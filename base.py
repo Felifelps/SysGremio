@@ -78,6 +78,6 @@ class election:
         for p in self.partys:
             output += p.name + ": " + str(p.points) + (" votos" if p.points != 1 else "  voto") + "\n"
         self.pr.write(output)
-        c = arq("progress.txt")
+        c = arq("progress")
         c.write(output)
         return output

@@ -42,7 +42,7 @@ class party:
 
 class election:
     def __init__(self):
-        self.ps = arq("chapas")
+        self.ps = arq("partys")
         self.pr = arq("progress")
         self.partys = []
         if self.ps.content == "":

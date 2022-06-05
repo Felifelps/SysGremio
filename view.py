@@ -1,7 +1,4 @@
 from tkinter import *
-import sys, os
-sys.path.append(os.getcwd().replace("View", "Model"))
-from base import *
 
 class GUI:
     def __init__(self):

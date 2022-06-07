@@ -1,3 +1,4 @@
+from tkinter import ttk
 from tkinter import *
 from base import *
 
@@ -28,7 +29,51 @@ class GUI:
         screen.mainloop()
     #------------------------------------------------------------------------------------------------------------------------------
     def voting_screen(self):
-        self.popup("Wait for voting screen")
+        screen = Toplevel()
+        screen.title("VotingScreen")
+        screen.geometry("%dx%d+0+0" % (screen.winfo_screenwidth(), screen.winfo_screenheight()))
+        screen.overrideredirect(True)
+
+        #Elements
+        title = Label(
+            screen,
+            text="Vote consciente",
+            font="Times 35 bold",
+            width=100,
+            height=6,
+            anchor=N,
+            pady=20
+        )
+
+        Partys = ttk.Combobox(
+            screen,
+            state="readonly"
+        )
+        
+        vote = Button(
+            screen,
+            text="Votar",
+            font="Times 12",
+            padx=20
+        )
+
+        #Aditioning partys
+        array = []
+        for party in self.election.partys:
+            array.append(party.name)
+        Partys["values"] = array
+        
+        #Layout
+        title.pack()
+        Label(screen, text="Selecione sua chapa e aperte em votar:", font="Times 12").pack()
+        Partys.pack()
+        Label(screen, text="").pack()
+        vote.pack()
+        Label(screen, text="").pack()
+        Label(screen, text="Desenvolvido pelo curso de informática.", font="Times 12", height=16, pady=5, anchor=S).pack()
+
+        #Mainloop
+        screen.mainloop()
     #------------------------------------------------------------------------------------------------------------------------------
     def election_result_screen(self):
         self.popup("Wait for result screen")
@@ -37,7 +82,7 @@ class GUI:
         self.election = election()
 
         screen = Toplevel()
-        screen.title("VotingPage")
+        screen.title("VotingMenu")
         screen.geometry("%dx%d+0+0" % (screen.winfo_screenwidth(), screen.winfo_screenheight()))
         screen.overrideredirect(True)
 

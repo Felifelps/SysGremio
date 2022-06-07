@@ -1,11 +1,11 @@
 from tkinter import *
+from base import *
 
 class GUI:
     def __init__(self):
         self.root = Tk()
-        self.election = election()
-        self.main_page()
-
+        self.main_menu()
+    #------------------------------------------------------------------------------------------------------------------------------
     def popup(self, Text):
         screen = Toplevel()
         screen.title(Text)
@@ -13,91 +13,152 @@ class GUI:
         Label(screen, text=Text, font="Times 15", width=20).pack()
         Button(screen, text="Ok", padx=15, pady=5, command=lambda: screen.destroy()).pack()
         screen.mainloop()
-
-    def vote_page(self):
+    #------------------------------------------------------------------------------------------------------------------------------
+    def confirm_screen(self, Text):
         screen = Toplevel()
-        screen.geometry("%dx%d+0+0" % (self.root.winfo_screenwidth(), self.root.winfo_screenheight()))
+        screen.title(Text)
+        screen.resizable(0, 0)
+        #Returning option
+        def option(option):
+            screen.destroy()
+            return option
+        Label(screen, text=Text, font="Times 15", width=20).grid(row=0, columnspan=2)
+        Button(screen, text="Sim", padx=15, pady=5, command=lambda: option(True)).grid(row=1, column=0)
+        Button(screen, text="Não", padx=15, pady=5, command=lambda: option(False)).grid(row=1, column=1)
+        screen.mainloop()
+    #------------------------------------------------------------------------------------------------------------------------------
+    def voting_screen(self):
+        self.popup("Wait for voting screen")
+    #------------------------------------------------------------------------------------------------------------------------------
+    def election_result_screen(self):
+        self.popup("Wait for result screen")
+    #------------------------------------------------------------------------------------------------------------------------------
+    def voting_menu(self):
+        self.election = election()
+
+        screen = Toplevel()
+        screen.title("VotingPage")
+        screen.geometry("%dx%d+0+0" % (screen.winfo_screenwidth(), screen.winfo_screenheight()))
         screen.overrideredirect(True)
 
-        partys = Listbox(screen,
-                         selectmode="single",
-                         height=len(self.election.partys)
-                         )
+        #Checking password
+        def check_password(Password, mode):
+            if Password == "":
+                if mode == "v": #vote
+                    self.voting_screen()
+                elif mode == "f": #finish 
+                    if self.confirm_screen("Finalizar votação?"):
+                        self.election_result_screen()
+                    
+            else:
+                self.popup("Senha inválida")
 
-        for party in self.election.partys:
-            partys.insert(self.election.partys.index(party), party.name)
-        partys.pack()
+        #Elements
+        title = Label(
+            screen,
+            text="Votação",
+            font="Times 35 bold",
+            width=100,
+            height=6,
+            anchor=N,
+            pady=20
+        )
 
+        password = Entry(
+            screen,
+            show="*"
+        )
+        
+        vote = Button(
+            screen,
+            text="Votar",
+            font="Times 12",
+            padx=20,
+            command=lambda: check_password(password.get(), "v")
+        )
 
+        finish_election = Button(
+            screen,
+            text="Finalizar votação",
+            font="Times 12",
+            padx=20,
+            command=lambda: check_password(password.get(), "f")
+        )
+        
+        #Layout
+        title.pack()
+        Label(screen, text="Digite a senha para finalizar a votação:", font="Times 12").pack()
+        password.pack()
+        password.focus()
+        Label(screen, text="").pack()
+        vote.pack()
+        Label(screen, text="").pack()
+        finish_election.pack()
+        Label(screen, text="Desenvolvido pelo curso de informática.", font="Times 12", height=16, pady=5, anchor=S).pack()
+
+        #Mainloop
         screen.mainloop()
-
+    #------------------------------------------------------------------------------------------------------------------------------
     def settings_page(self):
-        self.popup("Settings")
-    
-    def main_page(self):
-        self.root.title("Tela de Controle")
+        self.popup("Wait for Settings")
+    #------------------------------------------------------------------------------------------------------------------------------
+    def main_menu(self):
+        self.root.title("MainMenu")
         self.root.geometry("%dx%d+0+0" % (self.root.winfo_screenwidth(), self.root.winfo_screenheight()))
         self.root.overrideredirect(True)
 
-        #Check password
-        def check_password(Password, button="v"):
-            if Password == "infortop":
-                if button == "v":
-                    self.vote_page()
-                elif button == "s":
-                    self.settings_page()
-            else:
-                self.popup("Senha inválida!")
-                
-
         #Elements
-        title = Label(self.root,
-                      text="SysGremio",
-                      font="Times 35 bold",
-                      width=100,
-                      pady=20
-                      )
+        title = Label(
+            self.root,
+            text="SysGremio",
+            font="Times 35 bold",
+            width=100,
+            height=6,
+            anchor=N,
+            pady=20
+        )
         
-        password = Entry(self.root,
-                         width=50,
-                         show="*"
-                         )
+        start_election = Button(
+            self.root,
+            text="Iniciar votação",
+            font="Times 12",
+            padx=20,
+            command=lambda: self.voting_menu()
+        )
 
-        settings = Button(self.root,
-                          text="Configurações",
-                          font="Times 12",
-                          padx=20,
-                          command=lambda: check_password(password.get(), "s")
-                          )
-
-        vote = Button(self.root,
-                      text="Votação",
-                      font="Times 12",
-                      padx=20,
-                      command=lambda: check_password(password.get(), "v")
-                      )
+        change_partys = Button(
+            self.root,
+            text="Alterar chapas",
+            font="Times 12",
+            padx=20,
+            command=lambda: print("inda não")
+        )
         
-        credit = Label(self.root,
-                       text="Desenvolvido pelo curso de informática.",
-                       font="Times 12",
-                       height=16,
-                       pady=5,
-                       anchor=S
-                       )
+        exit = Button(
+            self.root,
+            text="Sair",
+            font="Times 12",
+            padx=20,
+            command=lambda: self.root.destroy()
 
+        )
+        credit = Label(
+            self.root,
+            text="Desenvolvido pelo curso de informática.",
+            font="Times 12",
+            height=16,
+            pady=5,
+            anchor=S
+        )
 
         #Layout
         title.pack()
-        Label(self.root, text="Digite a senha: ", font="Times 15", height=12, anchor=S).pack()
-        password.pack()
-        password.focus()
-        Label(self.root, text="\n", height=2).pack()
-        settings.pack()
+        start_election.pack()
         Label(self.root, text="").pack()
-        vote.pack()
-        credit.pack()
-        
-
+        change_partys.pack()
+        Label(self.root, text="").pack()
+        exit.pack()
+        Label(self.root, text="Desenvolvido pelo curso de informática.", font="Times 12", height=16, pady=5, anchor=S).pack()
 
         #Mainloop
         self.root.mainloop()

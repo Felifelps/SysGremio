@@ -1,0 +1,81 @@
+t:menuprincipal  feita
+ 	layout
+		l:SysGremio
+		b:iniciarvotação->menuvotacao
+		b:alterarchapas->edicaodechapas
+		b:sair->@out
+		l:Desenvolvido pelo curso de informática
+
+	description
+		inicia o app
+		tela cheia
+		unresizable
+		sem title bar
+
+t:menuvotacao
+	layout
+		l:Votação
+		e:Senha
+		b:votar->teladevoto
+		b:finalizarvotação->checarsenha(if true->teladeconfirmação)
+		l:Desenvolvido pelo curso de informática
+
+	description
+		caso a senha seja inválida, popup("senha inválida")
+		tela cheia
+		unresizable
+		sem title bar
+
+t:teladevoto
+	layout
+		l:Vote consciente
+		l:Selecione sua chapa e aperte em votar
+		combobox:(chapas)
+		l:Desenvolvido pelo curso de informática
+
+	description
+		desabilitar teclas alt, alt gr e windows
+		tela cheia
+		unresizable
+		sem title bar
+
+t:teladeconfirmação
+	layout
+		l:Confirmar voto?
+		b:Sim->teladeresultado
+		b:Não->None
+
+	description
+		inicia o app
+		unresizable
+		sem title bar
+
+t:tela de resultado
+	layout
+		l:Resultado da votação
+		l:(progress.content)
+		b:Voltar ao menu->menuinicial
+		l:Desenvolvido pelo curso de informática 
+
+	description
+		tela cheia
+		unresizable
+		sem title bar
+
+
+t:edicaodechapas
+	layout
+		l:Alterar chapas
+		combobox:(chapas)
+		b:adicionar
+		b:excluir
+
+	description
+		tela cheia
+		unresizable
+		sem title bar
+
+		
+
+
+		

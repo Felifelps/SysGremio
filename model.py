@@ -1,4 +1,3 @@
-import os
 class arq:
     def __init__(self, path):
         self.path = path

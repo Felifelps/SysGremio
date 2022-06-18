@@ -210,6 +210,7 @@ class app(tkinterGUI):
         #Confirm vote
         def confirm_vote():
             self.election.vote(Partys["values"].index(Partys.get()) + 1)
+            sound()
             screen.destroy()
 
         #Elements

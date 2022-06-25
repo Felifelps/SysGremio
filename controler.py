@@ -1,10 +1,21 @@
 from model import *
-import pyautogui, pygame
-from pynput.keyboard import *
+import pyautogui, pygame, os
 
-keyboard = Controller()
+blockcode = """
+<!Tab::
+<!F4::
+<#::
+>#::
+return
+"""
+
+deblockcode = """
+return
+"""
+
 partys = arq(r"Data\partys")
 Program_Password = "12"
+blockarq = arq(r"Data\block.ahk")
 
 def dont_close_vote_screen():
     def see(key):
@@ -34,4 +45,14 @@ def del_party(party_name):
     print(partys.content.replace(party_name, ""))
     partys.write(partys.content.replace(party_name, ""))
 
+def block_all_tabs_wins_and_F4():
+    blockarq.write(blockcode)
+    os.system("start " + os.getcwd() + r"\Data\block.ahk")
+
+def deblock_all_tabs_wins_and_F4():
+    blockarq.write(deblockcode)
+    os.system("start " + os.getcwd() + r"\Data\block.ahk")
+
+block_all_tabs_wins_and_F4()
+    
 

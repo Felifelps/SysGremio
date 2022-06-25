@@ -64,6 +64,7 @@ class tkinterGUI:
         Button(screen, text=first_button_text, padx=5, command=lambda: exit(Partys.get())).grid(row=3, column=0)
         Button(screen, text="Cancelar", padx=5, command=lambda: screen.destroy()).grid(row=3, column=1)
         screen.mainloop()
+    #------------------------------------------------------------------------------------------------------------------------------
 
 class app(tkinterGUI):
     def __init__(self):
@@ -109,7 +110,7 @@ class app(tkinterGUI):
             text="Sair",
             font="Times 12",
             padx=20,
-            command=lambda: self.root.destroy()
+            command=lambda: self.confirm_screen("Tem certeza que quer sair?", self.root.destroy)
 
         )
 
@@ -131,23 +132,22 @@ class app(tkinterGUI):
         n_partys = len(self.election.partys)
         if n_partys < 2:
             self.popup(("Não há chapas registradas!\nAdicione as chapas antes de\niniciar a votação." if n_partys == 0 else "Há apenas uma chapa registrada!\nSão necessárias no mínimo\nduas chapas para começar."))
+        
         screen = Toplevel()
         screen.title("VotingMenu")
         screen.geometry("%dx%d+0+0" % (screen.winfo_screenwidth(), screen.winfo_screenheight()))
         screen.overrideredirect(True)
+        screen.protocol("WM_DELETE_WINDOW", lambda: print("Não vai saiir"))
 
         #Checking password
-        def check_password(Password, mode):
+        def check_password(Password):
             #self.election
             def next_window():
                 screen.destroy()
                 self.election_result_screen()
-            if Password == "":
-                if mode: #vote
-                    self.voting_screen()
-                else: #finish 
-                    self.confirm_screen("Finalizar votação?", lambda: next_window())
-                    
+            if Password == Program_Password:
+                self.confirm_screen("Finalizar votação?", lambda: next_window()
+                )      
             else:
                 self.popup("Senha inválida")
 
@@ -172,7 +172,7 @@ class app(tkinterGUI):
             text="Votar",
             font="Times 12",
             padx=20,
-            command=lambda: check_password(password.get(), 1)
+            command= self.voting_screen
         )
 
         finish_election = Button(
@@ -180,7 +180,7 @@ class app(tkinterGUI):
             text="Finalizar votação",
             font="Times 12",
             padx=20,
-            command=lambda: check_password(password.get(), 0)
+            command=lambda: check_password(password.get())
         )
         
         #Layout
@@ -202,6 +202,9 @@ class app(tkinterGUI):
         screen.title("VotingScreen")
         screen.geometry("%dx%d+0+0" % (screen.winfo_screenwidth(), screen.winfo_screenheight()))
         screen.overrideredirect(True)
+        screen.protocol("WM_DELETE_WINDOW", lambda: print("Não vai saiir"))
+        screen.grab_set()
+        
         #Aditioning partys
         array = []
         for party in self.election.partys:
@@ -247,7 +250,7 @@ class app(tkinterGUI):
         vote.pack()
         Label(screen, text="").pack()
         Label(screen, text="Desenvolvido pelo curso de informática.", font="Times 12", height=16, pady=5, anchor=S).pack()
-
+        
         #Mainloop
         screen.mainloop()
     #------------------------------------------------------------------------------------------------------------------------------
@@ -256,6 +259,7 @@ class app(tkinterGUI):
         screen.title("ElectionResult")
         screen.geometry("%dx%d+0+0" % (screen.winfo_screenwidth(), screen.winfo_screenheight()))
         screen.overrideredirect(True)
+        screen.protocol("WM_DELETE_WINDOW", lambda: print("Não vai saiir"))
 
         #Elements
         title = Label(
@@ -300,6 +304,7 @@ class app(tkinterGUI):
         screen.title("Settings")
         screen.geometry("%dx%d+0+0" % (screen.winfo_screenwidth(), screen.winfo_screenheight()))
         screen.overrideredirect(True)
+        screen.protocol("WM_DELETE_WINDOW", lambda: print("Não vai saiir"))
 
         #Elements
         title = Label(
@@ -350,9 +355,3 @@ class app(tkinterGUI):
         screen.mainloop()
     #------------------------------------------------------------------------------------------------------------------------------
     
-
-app = app()
-
-
-
-        

@@ -42,8 +42,8 @@ class party:
 
 class election:
     def __init__(self):
-        self.ps = arq("partys")
-        self.pr = arq("progress")
+        self.ps = arq("Data\partys")
+        self.pr = arq("Data\progress")
         self.partys = []
         if self.ps.content == "":
             print("Sem chapas")

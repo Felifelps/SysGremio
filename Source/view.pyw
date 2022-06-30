@@ -3,12 +3,14 @@ from tkinter import ttk
 from model import *
 from controler import *
 from tkinterGUI import tkinter_GUI
+from pynput.keyboard import Key, Listener
 
 class app(tkinter_GUI):
     def __init__(self):
         super().__init__()
         hide_all_windows()
         self.root = Tk()
+        self.lis = Listener(on_press=check_exit_hotkeys)
         self.main_menu()
     #------------------------------------------------------------------------------------------------------------------------------    
     def main_menu(self):
@@ -82,10 +84,10 @@ class app(tkinter_GUI):
             #self.election
             def next_window():
                 screen.destroy()
+                self.lis.stop()
                 self.election_result_screen()
             if Password == Program_Password:
-                self.confirm_screen("Finalizar votação?", lambda: next_window()
-                )      
+                self.confirm_screen("Finalizar votação?", lambda: next_window())      
             else:
                 self.popup("Senha inválida")
 
@@ -133,6 +135,8 @@ class app(tkinter_GUI):
         Label(screen, text="Desenvolvido pelo curso de informática.", font="Times 12", height=16, pady=5, anchor=S).pack()
 
         #Listener
+        self.lis.start()
+        
         #Mainloop
         screen.mainloop()
     #------------------------------------------------------------------------------------------------------------------------------

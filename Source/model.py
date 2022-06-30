@@ -30,7 +30,6 @@ class arq:
             read = arq.readlines()
         self.content = "".join(read)
 
-
 class party:
     def __init__(self, name):
         self.name = name
@@ -78,5 +77,6 @@ class election:
         for p in self.partys:
             output += p.name + ": " + str(p.points) + (" votos" if p.points != 1 else "  voto") + "\n"
         self.pr.write(output)
-        self.pr.write(output)
         return output
+
+   

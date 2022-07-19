@@ -13,7 +13,7 @@ class tkinter_GUI:
         Button(screen, text="Ok", padx=15, pady=5, command=lambda: screen.destroy()).pack()
         screen.mainloop()
     #------------------------------------------------------------------------------------------------------------------------------
-    def confirm_screen(self, Text:str, function):
+    def confirm_screen(self, Text:str, yes_function, no_function=lambda: print("NO")):
         screen = Toplevel()
         screen.grab_set()
         screen.title(Text)
@@ -21,8 +21,10 @@ class tkinter_GUI:
         #Returning option
         def selected_option(option:int):
             screen.destroy()
-            if option:
-                function()
+            if option == 1:
+                return yes_function()
+            elif option == 0:
+                return no_function()
         Label(screen, text=Text, font="Times 15", width=20).grid(row=0, columnspan=2)
         Button(screen, text="Sim", padx=15, pady=5, command=lambda: selected_option(1)).grid(row=1, column=0)
         Button(screen, text="Não", padx=15, pady=5, command=lambda: selected_option(0)).grid(row=1, column=1)

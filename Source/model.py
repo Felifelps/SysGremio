@@ -1,6 +1,7 @@
+import os
 class arq:
     def __init__(self, path):
-        self.path = path
+        self.path = os.path.join(path)
         try:
             with open(self.path, "r") as arq:
                 read = arq.readlines()
@@ -41,8 +42,11 @@ class party:
 
 class election:
     def __init__(self):
-        self.ps = arq("Data\partys")
-        self.pr = arq("Data\progress")
+        self.continued = False
+        #print(os.getcwd()  + ("\\Source" if "Source" not in os.getcwd() else "") + "\\Data\\partys")
+        self.ps = arq(os.getcwd()  + ("\\Source" if "Source" not in os.getcwd() else "") + "\\Data\\partys")
+        self.pr = arq(os.getcwd()  + ("\\Source" if "Source" not in os.getcwd() else "") + "\\Data\\progress")
+        
         self.partys = []
         if self.ps.content == "":
             print("Sem chapas")
@@ -51,6 +55,18 @@ class election:
             for i in self.ps.read(0):
                 p = party(i.replace("\n", ""))
                 self.partys.append(p)
+
+    def continue_election(self, progress_content):
+        progress_lines = progress_content.split("\n")
+        self.partys = []
+        for line in progress_lines:   
+            index = 0
+            separed_line = line.split(" : ")
+            p = party(separed_line[0])
+            p.points = (int(separed_line[1].split(" ")[0]) if separed_line[1].split(" ")[0].isdigit() else 0)
+            self.partys.append(p)
+            index += 1
+        self.continued = True
 
     def vote(self, pid):
         n = 1
@@ -72,11 +88,14 @@ class election:
             self.progress()
                     
 
-    def progress(self):
+    def progress(self, status="Running"):
         output = ""
         for p in self.partys:
-            output += p.name + ": " + str(p.points) + (" votos" if p.points != 1 else "  voto") + "\n"
-        self.pr.write(output)
+            output += p.name + " : " + str(p.points) + (" votos" if p.points != 1 else " voto") + "\n"
+        self.pr.write(output + status)
         return output
+    
+    def finish(self):
+        self.progress("Finished")
 
-   
+
